@@ -1,30 +1,38 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Comprar Megas</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Área do Cliente</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<div class="container">
-  <h1>Megas Diários Vodacom</h1>
+<h2>Área do Cliente</h2>
 
-  <div class="pacote"><strong>1200MB</strong>20 MT</div>
-  <div class="pacote"><strong>1500MB</strong>25 MT</div>
-  <div class="pacote"><strong>1800MB</strong>30 MT</div>
-  <div class="pacote"><strong>2450MB</strong>40 MT</div>
+<p><b>Número:</b> <%= numero %></p>
 
-  <h2>Enviar comprovativo</h2>
+<h3>Pacotes Disponíveis</h3>
 
-  <form method="POST" action="/upload" enctype="multipart/form-data">
-    <label>Comprovativo</label>
-    <input type="file" name="comprovativo" required>
+<ul>
+  <% pacotes.forEach(p => { %>
+    <li><b><%= p.nome %></b> - <%= p.preco %></li>
+  <% }) %>
+</ul>
 
-    <button type="submit">Enviar</button>
-  </form>
-</div>
+<h3>Formas de Pagamento</h3>
+<p>
+MPesa: 848435732<br>
+Emola: 870737473<br>
+Nome: Joaquim Sitol
+</p>
+
+<p>
+Depois do pagamento, envie o comprovativo pelo WhatsApp.
+</p>
+
+<a href="https://wa.me/258848435732" target="_blank">
+  <button>Enviar comprovativo no WhatsApp</button>
+</a>
 
 </body>
 </html>
