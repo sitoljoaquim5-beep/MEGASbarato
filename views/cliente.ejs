@@ -1,49 +1,46 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <title>Área do Cliente - MegasBarato</title>
-    <link rel="stylesheet" href="/style.css">
-</head>
-<body>
-
-<header>
-    <h1>MegasBarato</h1>
-    <h2>Área do Cliente</h2>
-    <p>Número que vai receber os megas: <b><%= numero %></b></p>
-    <p>Formas de pagamento: <b>848435732 Mpesa | 870737473 Emola</b></p>
+<header style="background:#e60000; color:white; padding:15px; text-align:center;">
+<h2>Área do Cliente</h2>
+<p>💳 Formas de pagamento: Mpesa 848435732 | Emola 870737473 | Joaquim Sitol</p>
+<p>Número do login: <b><%= numero %></b></p>
 </header>
 
-<div class="container">
-    <h2>Pacotes Disponíveis</h2>
-    <ul>
-        <% pacotes.forEach(function(pacote){ %>
-            <li>
-                📰 <b><%= pacote.nome %></b> | 💰 <b><%= pacote.preco %> MT</b>
-            </li>
-        <% }) %>
-    </ul>
+<div class="container" style="background:#fff0f0; border:1px solid #e60000;">
+<h3 style="color:#e60000;">Escolha seu pacote</h3>
+<form method="POST" action="/pedido" enctype="multipart/form-data">
+<label>Pacote</label>
+<select name="pacote" required>
+<% pacotes.forEach(function(p){ %>
+<option value="<%= p %>"><%= p %></option>
+<% }) %>
+</select>
 
-    <h2>Enviar Comprovativo</h2>
-    <form action="/enviar-comprovativo" method="POST" enctype="multipart/form-data">
-        <label for="arquivo"><b>Escolher arquivo:</b></label>
-        <input type="file" name="arquivo" id="arquivo" required>
-        <br><br>
-        <button type="submit">Enviar Comprovativo</button>
-    </form>
+<label>Número que vai receber os megas</label>
+<input type="text" name="numero_destino" placeholder="Ex: 84XXXXXXX" required>
 
-    <h2>Ou enviar via WhatsApp:</h2>
-    <p><a href="https://wa.me/848435732" target="_blank">Clique aqui para enviar pelo WhatsApp</a></p>
+<label>Comprovativo (ou selecione WhatsApp)</label>
+<input type="file" name="comprovativo">
 
-    <h2>Pedidos Pendentes</h2>
-    <ul>
-        <% pedidos.forEach(function(pedido){ %>
-            <li>
-                <b><%= pedido.pacote %></b> - <%= pedido.status %>
-            </li>
-        <% }) %>
-    </ul>
+<input type="hidden" name="numero" value="<%= numero %>">
+
+<select name="modo">
+<option value="site">Enviar no Site</option>
+<option value="whatsapp">Via WhatsApp</option>
+</select>
+
+<br><br>
+<button style="background:#e60000; color:white;">Enviar Pedido</button>
+</form>
+
+<h3 style="color:#e60000;">Pedidos já realizados</h3>
+<ul>
+<% pedidos.forEach(function(p){ %>
+<li style="background:<%= p.status==='Aprovado'?'#d4edda':'#fff3cd' %>; padding:5px; border-radius:5px; margin-bottom:5px;">
+📦 <b><%= p.pacote %></b> - Status: <b><%= p.status %></b> - Número destino: <b><%= p.numero_destino %></b>
+<% if(p.comprovativo !== "WHATSAPP"){ %> - 
+<a href="/uploads/<%= p.comprovativo %>" target="_blank">📎 Ver comprovativo</a>
+<% } else { %> - 📲 Enviado via WhatsApp
+<% } %>
+</li>
+<% }) %>
+</ul>
 </div>
-
-</body>
-</html>
