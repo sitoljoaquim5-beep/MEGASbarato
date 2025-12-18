@@ -1,0 +1,21 @@
+<header>
+<h2>Admin</h2>
+</header>
+
+<div class="container">
+<h3>Lista de Pedidos</h3>
+<ul>
+<% pedidos.forEach(function(p,i){ %>
+<li style="background:<%= p.status==='Aprovado'?'#d4edda':'#fff3cd' %>; padding:5px; border-radius:5px; margin-bottom:5px;">
+📱 <b><%= p.numero %></b> - 📦 <b><%= p.pacote %></b> - Número destino: <b><%= p.numero_destino %></b> - Status: <b><%= p.status %></b>
+<% if(p.comprovativo==="WHATSAPP"){ %> - 📲 Comprovativo via WhatsApp
+<% } else { %> - <a href="/uploads/<%= p.comprovativo %>" target="_blank">📎 Ver comprovativo</a>
+<% } %>
+
+<% if(p.status==="Pendente"){ %>
+ - <a href="/aprovar/<%= i %>"><button>Aprovar Pedido</button></a>
+<% } %>
+</li>
+<% }) %>
+</ul>
+</div>

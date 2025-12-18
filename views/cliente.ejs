@@ -1,0 +1,46 @@
+<header style="background:#e60000; color:white; padding:15px; text-align:center;">
+<h2>Área do Cliente</h2>
+<p>💳 Formas de pagamento: Mpesa 848435732 | Emola 870737473 | Joaquim Sitol</p>
+<p>Número do login: <b><%= numero %></b></p>
+</header>
+
+<div class="container" style="background:#fff0f0; border:1px solid #e60000;">
+<h3 style="color:#e60000;">Escolha seu pacote</h3>
+<form method="POST" action="/pedido" enctype="multipart/form-data">
+<label>Pacote</label>
+<select name="pacote" required>
+<% pacotes.forEach(function(p){ %>
+<option value="<%= p %>"><%= p %></option>
+<% }) %>
+</select>
+
+<label>Número que vai receber os megas</label>
+<input type="text" name="numero_destino" placeholder="Ex: 84XXXXXXX" required>
+
+<label>Comprovativo (ou selecione WhatsApp)</label>
+<input type="file" name="comprovativo">
+
+<input type="hidden" name="numero" value="<%= numero %>">
+
+<select name="modo">
+<option value="site">Enviar no Site</option>
+<option value="whatsapp">Via WhatsApp</option>
+</select>
+
+<br><br>
+<button style="background:#e60000; color:white;">Enviar Pedido</button>
+</form>
+
+<h3 style="color:#e60000;">Pedidos já realizados</h3>
+<ul>
+<% pedidos.forEach(function(p){ %>
+<li style="background:<%= p.status==='Aprovado'?'#d4edda':'#fff3cd' %>; padding:5px; border-radius:5px; margin-bottom:5px;">
+📦 <b><%= p.pacote %></b> - Status: <b><%= p.status %></b> - Número destino: <b><%= p.numero_destino %></b>
+<% if(p.comprovativo !== "WHATSAPP"){ %> - 
+<a href="/uploads/<%= p.comprovativo %>" target="_blank">📎 Ver comprovativo</a>
+<% } else { %> - 📲 Enviado via WhatsApp
+<% } %>
+</li>
+<% }) %>
+</ul>
+</div>
